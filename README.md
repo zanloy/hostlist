@@ -9,11 +9,11 @@ All FQDNs are entered into the configuration file. This file is in YAML format a
 The default location for the configuration file is /etc/hostlist.yaml
 
 ```yaml
-'extpxy00{1..4}.prd.vbms.vba.va.gov':
+'extpxy00{1..4}.example.com':
   tags: [ 'prd', 'pxy', 'extpxy']
-'extpxy00{1,2}.pre.vbms.vba.va.gov':
+'extpxy00{1,2}.pre.example.com':
   tags: [ 'pre', 'pxy', 'extpxy']
-'intpxy00{1,2}.prd.vbms.vba.va.gov':
+'intpxy00{1,2}.example.com':
   tags: [ 'prd', 'pxy', 'intpxy']
 ```
 
@@ -22,10 +22,10 @@ The default location for the configuration file is /etc/hostlist.yaml
 You can list hosts by running hostlist with a list of tags you want to filter with. You can use any number of tags separated by a space. Using the above sample configuration, running "hostlist prd extpxy" would yield:
 
 ```
-extpxy001.prd.vbms.vba.va.gov
-extpxy002.prd.vbms.vba.va.gov
-extpxy003.prd.vbms.vba.va.gov
-extpxy004.prd.vbms.vba.va.gov
+extpxy001.example.com
+extpxy002.example.com
+extpxy003.example.com
+extpxy004.example.com
 ```
 
 ## Showing Tags
