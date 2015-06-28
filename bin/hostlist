@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'hostlist'
+require 'hostlist/thor'
 
-HostList.start(ARGV)
+HostListThor.start(ARGV)

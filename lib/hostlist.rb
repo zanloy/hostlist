@@ -1,28 +1,22 @@
 require 'bracecomp'
 require 'daybreak'
 require 'digest'
-require 'thor'
 require 'yaml'
 
-class HostList < Thor
+class HostList
 
-  default_task :list
-
-  class_option :yaml, type: :string, default: '/etc/hostlist.yaml'
-  class_option :db, type: :string, default: '~/.hostlist.db'
-
-  def method_missing(method, *args)
-    args = ['list', method.to_s] + args
-    HostList.start(args)
+  def initialize(yaml: '/etc/hostlist.yaml', cache: '~/.hostlist.db')
+    @yaml = yaml
+    @db_filename = cache
   end
 
-  desc 'list', 'List hosts based on a tag.'
-  def list(*tags)
+  def list(tags)
+    tags = [tags] if tags.is_a? String
     # Verify we have the most recent data in our daybreak cache.
     db = open_db
     begin
       if db.has_key? :md5
-        file_md5 = Digest::MD5.file options[:yaml]
+        file_md5 = Digest::MD5.file @yaml
         generate_db(db) unless file_md5 == db[:md5]
       else
         generate_db(db)
@@ -43,25 +37,24 @@ class HostList < Thor
           end
         end
       end
-      hosts.each { |host| puts host }
     ensure
       db.close
     end
+    return hosts
   end
 
-  desc 'Show tags', 'Show all the tags in the cache database.'
-  def show
+  # Return all the keys in the database.
+  def keys
     db = open_db
     begin
-      db.keys.each do |key|
-        puts key
-      end
+      keys = db.keys
     ensure
       db.close
     end
+    return keys
   end
 
-  desc 'print_db', 'Print the contents of the database for debugging purposes'
+  # Print the contents of the database for debugging purposes
   def print_db
     db = open_db
     begin
@@ -73,30 +66,28 @@ class HostList < Thor
     end
   end
 
-  no_tasks do
-    def open_db
-      Daybreak::DB.new File.expand_path(options[:db])
-    end
+  def open_db
+    Daybreak::DB.new File.expand_path(@db_filename)
+  end
 
-    def generate_db(db)
-      db.clear
-      db[:all] = []
-      hosts = YAML.load_file(options[:yaml])
-      hosts.each do |key, value|
-        value['tags'].each do |tag|
-          if db.has_key? tag
-            db[tag] += key.expand
-          else
-            db[tag] = key.expand
-          end
+  def generate_db(db)
+    db.clear
+    db[:all] = []
+    hosts = YAML.load_file(@yaml)
+    hosts.each do |key, value|
+      value['tags'].each do |tag|
+        if db.has_key? tag
+          db[tag] += key.expand
+        else
+          db[tag] = key.expand
         end
-        # Add servers to :all
-        # TODO: Figure out why this isn't working. db[:all] is always an empty array.
-        key.expand.each { |host| db[:all] += [host] unless db[:all].include?(host) }
       end
-      db[:md5] = Digest::MD5.file(options[:yaml]).to_s
-      db.flush
+      # Add servers to :all
+      # TODO: Figure out why this isn't working. db[:all] is always an empty array.
+      key.expand.each { |host| db[:all] += [host] unless db[:all].include?(host) }
     end
+    db[:md5] = Digest::MD5.file(@yaml).to_s
+    db.flush
   end
 
 end
