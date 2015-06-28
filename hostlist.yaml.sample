@@ -1,24 +1,6 @@
-'extpxy001.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'pxy', 'extpxy']
-'extpxy002.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'pxy', 'extpxy']
-'extpxy003.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'pxy', 'extpxy']
-'extpxy004.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'pxy', 'extpxy']
-'vbms000.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'weblogic', 'vbms' ]
-'vbms001.prd.vbms.vba.va.gov':
-  tags: [ 'prd', 'weblogic', 'vbms' ]
-'extpxy001.pre.vbms.vba.va.gov':
-  tags: [ 'pre', 'pxy', 'extpxy']
-'extpxy002.pre.vbms.vba.va.gov':
-  tags: [ 'pre', 'pxy', 'extpxy']
-'extpxy001.prdtst.vbms.vba.va.gov':
-  tags: [ 'prdtst', 'pxy', 'extpxy']
-'extpxy002.prdtst.vbms.vba.va.gov':
-  tags: [ 'prdtst', 'pxy', 'extpxy']
-'extpxy001.perf.vbms.vba.va.gov':
-  tags: [ 'perf', 'pxy', 'extpxy']
-'extpxy002.perf.vbms.vba.va.gov':
-  tags: [ 'perf', 'pxy', 'extpxy']
+'www00{1,2}.example.com':
+  tags: [ 'prd', 'pxy', 'www']
+'app00{1..4}.example.com':
+  tags: [ 'prd', 'app']
+'db001.example.com':
+  tags: [ 'prd', 'db']
