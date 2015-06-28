@@ -10,18 +10,12 @@ class HostList
     @db_filename = cache
   end
 
+  # Return array based on tags. Tags can be a string or array of strings.
   def list(tags)
     tags = [tags] if tags.is_a? String
     # Verify we have the most recent data in our daybreak cache.
     db = open_db
     begin
-      if db.has_key? :md5
-        file_md5 = Digest::MD5.file @yaml
-        generate_db(db) unless file_md5 == db[:md5]
-      else
-        generate_db(db)
-      end
-      db.load
       # Collect all the tags from the database
       hosts = []
       if tags.empty?
@@ -66,10 +60,19 @@ class HostList
     end
   end
 
+  # Open cache database
   def open_db
-    Daybreak::DB.new File.expand_path(@db_filename)
+    db = Daybreak::DB.new File.expand_path(@db_filename)
+    if db.has_key? :md5
+      file_md5 = Digest::MD5.file @yaml
+      generate_db(db) unless file_md5 == db[:md5]
+    else
+      generate_db(db)
+    end
+    return db
   end
 
+  # Read in yaml file and cache to database
   def generate_db(db)
     db.clear
     db[:all] = []
@@ -88,6 +91,29 @@ class HostList
     end
     db[:md5] = Digest::MD5.file(@yaml).to_s
     db.flush
+  end
+
+  # Export the host list as an ansible hosts file.
+  def export_ansible(filename = '/etc/ansible/hosts')
+    db = open_db
+    output = []
+    begin
+      db.keys.each do |key|
+        next if key == 'md5'
+        output << "[#{key}]"
+        db[key].each do |host|
+          output << host
+        end
+      end
+      output = output.join("\n")
+      if filename and File.writable? filename
+        File.open(filename, 'w') { |f| f.write(output) }
+      else
+        puts output
+      end
+    ensure
+      db.close
+    end
   end
 
 end

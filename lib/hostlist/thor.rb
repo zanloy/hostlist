@@ -25,10 +25,16 @@ class HostListThor < Thor
     hostlist.keys.each { |key| puts key }
   end
 
-  desc 'print_db', 'Print the contents of the database for debugging purposes'
+  desc 'print_db', 'Print the contents of the database for debugging purposes.'
   def print_db
     hostlist = HostList.new(yaml: options[:yaml], cache: options[:db])
     hostlist.print_db
+  end
+
+  desc 'print_ansible', 'Print out the ansible hosts to stdout.'
+  def print_ansible
+    hostlist = HostList.new(yaml: options[:yaml], cache: options[:db])
+    hostlist.export_ansible(nil)
   end
 
 end

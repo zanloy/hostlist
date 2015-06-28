@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name        = 'hostlist'
-  gem.version     = '1.0.0'
+  gem.version     = '1.0.1'
   gem.licenses    = ['MIT']
   gem.date        = '2015-06-27'
   gem.summary     = 'Host List Generator'
