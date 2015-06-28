@@ -1,13 +1,13 @@
 Gem::Specification.new do |gem|
   gem.name        = 'hostlist'
-  gem.version     = '0.0.2'
+  gem.version     = '1.0.0'
   gem.licenses    = ['MIT']
   gem.date        = '2015-06-27'
   gem.summary     = 'Host List Generator'
   gem.description = 'Generates list of hosts based on tags.'
   gem.authors     = ['Zan Loy']
   gem.email       = ['zan.loy@gmail.com']
-  gem.homepage    = 'http://sparcedge.com'
+  gem.homepage    = 'https://github.com/zanloy/hostlist'
   gem.files       = `git ls-files`.split("\n") - %w[.gitignore]
   gem.executables = ['hostlist']
 
