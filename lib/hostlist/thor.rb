@@ -19,7 +19,7 @@ class HostListThor < Thor
     hostlist.list(tags).each { |host| puts host }
   end
 
-  desc 'Show tags', 'Show all the tags in the cache database.'
+  desc 'show', 'Show all the tags in the cache database.'
   def show
     hostlist = HostList.new(yaml: options[:yaml], cache: options[:db])
     hostlist.keys.each { |key| puts key }

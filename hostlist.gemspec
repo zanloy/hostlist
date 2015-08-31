@@ -1,8 +1,8 @@
 Gem::Specification.new do |gem|
   gem.name        = 'hostlist'
-  gem.version     = '1.0.1'
+  gem.version     = '1.0.2'
   gem.licenses    = ['MIT']
-  gem.date        = '2015-06-27'
+  gem.date        = '2015-08-31'
   gem.summary     = 'Host List Generator'
   gem.description = 'Generates list of hosts based on tags.'
   gem.authors     = ['Zan Loy']
